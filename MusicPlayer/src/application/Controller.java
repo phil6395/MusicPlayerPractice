@@ -3,12 +3,21 @@ package application;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -49,10 +58,7 @@ public class Controller implements Initializable{
 	
 	private ArrayList<File> songs;
 	
-	
 	private String selectedTrackPath;
-
-	
 
 	private int songNumber;
 	
@@ -66,19 +72,21 @@ public class Controller implements Initializable{
 	public Media selectedTrack;
 	public MediaPlayer selectionMediaPlayer;
 	
+	private String nameWithoutExtension;
+	
 	@FXML
 	private TextField searchBox;
 	
 	@FXML
 	private ListView<String> tracksListView;
 	
+	private ListView<String> filteredTracksListView;
+	
 	private String clickedSong;
 	
 	@FXML
 	private RadioButton titleRadioButton, artistRadioButton;
 	
-	//@FXML
-	//private ListView tracksListView;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {		
@@ -92,7 +100,7 @@ public class Controller implements Initializable{
 			for(File file : files) {
 				songs.add(file);
 				String stripped = file.getName();
-				String nameWithoutExtension = stripped.substring(0,stripped.lastIndexOf("."));
+				nameWithoutExtension = stripped.substring(0,stripped.lastIndexOf("."));
 				tracksListView.getItems().addAll(nameWithoutExtension);
 			}
 		}
@@ -120,8 +128,6 @@ public class Controller implements Initializable{
 			}
 			
 		});
-		
-		
 		
 	}
 
@@ -236,14 +242,45 @@ public class Controller implements Initializable{
 			
 		}
 		
-		
-		
-	
 	
 	public void cancelTimer() {
 		running = false;
 		timer.cancel();	
 	}
+	
+	
+	public void search(ActionEvent event) {
+		
+		//ObservableList<String> filteredTracksListView = FXCollections.observableArrayList();
+		//System.out.println(filteredTracksListView);
+		
+		
+		
+		ListView<String> filteredTracksListView = new ListView<>();
+		
+		String filter = searchBox.getText();
+		
+		
+		for(String t: tracksListView.getItems()) {
+			if (t.contains(filter)
+					&& filter.length() > 0) {
+				filteredTracksListView.getItems().add(t);
+			}
+		}
+		
+		
+		
+		if(filter.equals("")) {
+			
+		}
+		else {
+			tracksListView.setItems(FXCollections.observableArrayList(filteredTracksListView.getItems()));
+		}
 
+	
+	
+
+	
+	}
 
 }
