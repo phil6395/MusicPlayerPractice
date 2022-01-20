@@ -80,7 +80,6 @@ public class Controller implements Initializable{
 	@FXML
 	private ListView<String> tracksListView;
 	
-	private ListView<String> filteredTracksListView;
 	
 	private String clickedSong;
 	
@@ -251,27 +250,26 @@ public class Controller implements Initializable{
 	
 	public void search(ActionEvent event) {
 		
-		//ObservableList<String> filteredTracksListView = FXCollections.observableArrayList();
-		//System.out.println(filteredTracksListView);
-		
-		
-		
 		ListView<String> filteredTracksListView = new ListView<>();
 		
 		String filter = searchBox.getText();
+		
+		ObservableList<String> masterTracksListView = tracksListView.getItems();
+		System.out.println(masterTracksListView);
 		
 		
 		for(String t: tracksListView.getItems()) {
 			if (t.contains(filter)
 					&& filter.length() > 0) {
 				filteredTracksListView.getItems().add(t);
+				System.out.println(t);
 			}
 		}
 		
 		
-		
 		if(filter.equals("")) {
-			
+			tracksListView.getItems().clear();
+			initialize(null, null);
 		}
 		else {
 			tracksListView.setItems(FXCollections.observableArrayList(filteredTracksListView.getItems()));
