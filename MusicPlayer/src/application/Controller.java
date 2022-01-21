@@ -3,20 +3,13 @@ package application;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,8 +25,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class Controller implements Initializable{
-	
-	
 	
 	@FXML
 	private Pane pane;
@@ -78,6 +69,9 @@ public class Controller implements Initializable{
 	private TextField searchBox;
 	
 	@FXML
+	private Button searchButton;
+	
+	@FXML
 	private ListView<String> tracksListView;
 	
 	
@@ -88,7 +82,7 @@ public class Controller implements Initializable{
 	
 	
 	@Override
-	public void initialize(URL url, ResourceBundle rb) {		
+	public void initialize(URL url, ResourceBundle rb) {	
 		songs = new ArrayList<File>();
 		
 		directory = new File("music");
@@ -249,25 +243,25 @@ public class Controller implements Initializable{
 	
 	
 	public void search(ActionEvent event) {
+		tracksListView.getItems().clear();
+		initialize(null, null);
 		
 		ListView<String> filteredTracksListView = new ListView<>();
-		
+				
 		String filter = searchBox.getText();
 		
-		ObservableList<String> masterTracksListView = tracksListView.getItems();
-		System.out.println(masterTracksListView);
-		
+		filter = filter.toLowerCase();
 		
 		for(String t: tracksListView.getItems()) {
-			if (t.contains(filter)
+			if (t.toLowerCase().contains(filter)
 					&& filter.length() > 0) {
 				filteredTracksListView.getItems().add(t);
-				System.out.println(t);
+				//System.out.println(t);
 			}
 		}
 		
 		
-		if(filter.equals("")) {
+		if(filter.equals("") || searchBox.getText() == null) {
 			tracksListView.getItems().clear();
 			initialize(null, null);
 		}
@@ -275,10 +269,53 @@ public class Controller implements Initializable{
 			tracksListView.setItems(FXCollections.observableArrayList(filteredTracksListView.getItems()));
 		}
 
+		}
 	
-	
-
-	
+	public void resetSearch() {
+		tracksListView.getItems().clear();
+		initialize(null, null);
+		searchBox.setText(null);
 	}
+	
+	public void sortListView(ActionEvent event) {
+		if (titleRadioButton.isSelected()) {
+//			ObservableList<String> list = tracksListView.getSelectionModel().getSelectedItems();
+//			System.out.println("list: " + list);
+//			SortedList<String> titleSortedList = new SortedList<String>(list);
+//			System.out.println(titleSortedList);
+//			tracksListView.setItems(titleSortedList);
+			
+			ArrayList<String> titleSortedList = new ArrayList<>();
+			for (String t: tracksListView.getItems()) {
+				titleSortedList.add(t);
+			}
+			
+			Collections.sort(titleSortedList);
+			
+			
+			System.out.println(titleSortedList);
+
+			
+		}
+		else if (artistRadioButton.isSelected()) {
+			
+			ArrayList<String> artistSortedList = new ArrayList<>();
+			for (String i: tracksListView.getItems()) {
+				
+				String[] parts = i.split(" - ");
+				String part1 = parts[0]; 
+				String part2 = parts[1];
+				
+				artistSortedList.add(part2 + " - " + part1);
+			}
+			System.out.println(artistSortedList);
+			
+			
+			Collections.sort(artistSortedList);
+		}
+		
+	}
+		
+		
 
 }

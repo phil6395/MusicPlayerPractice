@@ -20,11 +20,12 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.show();
+			scene.getRoot().requestFocus();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		stage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
 			
 			@Override
@@ -34,9 +35,11 @@ public class Main extends Application {
 			}
 			
 		});
+			
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 }

@@ -20,8 +20,8 @@
       <Button fx:id="previousButton" layoutX="62.0" layoutY="399.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="32.0" prefWidth="34.0" text="⏮" />
       <ProgressBar fx:id="songProgressBar" layoutX="37.0" layoutY="337.0" prefHeight="18.0" prefWidth="234.0" progress="0.0" />
       <Label fx:id="songLabel" alignment="CENTER" layoutX="44.0" layoutY="364.0" prefHeight="18.0" prefWidth="219.0" text="-" />
-      <TextField fx:id="searchBox" alignment="CENTER" layoutX="40.0" layoutY="12.0" prefHeight="38.0" prefWidth="173.0" promptText="Artist, Track..." />
-      <ImageView fitHeight="38.0" fitWidth="25.0" layoutX="46.0" layoutY="19.0" opacity="0.53" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="searchBox" alignment="CENTER" layoutX="30.0" layoutY="12.0" prefHeight="38.0" prefWidth="158.0" promptText="Artist, Track..." />
+      <ImageView fitHeight="38.0" fitWidth="25.0" layoutX="33.0" layoutY="19.0" opacity="0.53" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@search.png" />
          </image>
@@ -30,12 +30,12 @@
       <ToggleButton fx:id="shuffleToggle" layoutX="30.0" layoutY="297.0" mnemonicParsing="false" text="🔀" />
       <ListView fx:id="tracksListView" layoutX="30.0" layoutY="103.0" prefHeight="174.0" prefWidth="250.0" />
       <Text layoutX="17.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
-      <RadioButton fx:id="titleRadioButton" layoutX="71.0" layoutY="68.0" mnemonicParsing="false" text="Title">
+      <RadioButton fx:id="titleRadioButton" layoutX="71.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Title">
          <toggleGroup>
             <ToggleGroup fx:id="radioButtons" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="artistRadioButton" layoutX="119.0" layoutY="68.0" mnemonicParsing="false" text="Artist" toggleGroup="$radioButtons" />
+      <RadioButton fx:id="artistRadioButton" layoutX="119.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Artist" toggleGroup="$radioButtons" />
       <Button fx:id="viewPlaylistButton" layoutX="199.0" layoutY="64.0" mnemonicParsing="false" text="View Playlist" />
       <Button fx:id="playButton" layoutX="103.0" layoutY="393.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="38.0" prefWidth="46.0" text="▶">
          <font>
@@ -45,6 +45,14 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-      <Button layoutX="218.0" layoutY="18.0" mnemonicParsing="false" onAction="#search" text="Search" />
+      <Button fx:id="searchButton" layoutX="194.0" layoutY="15.0" mnemonicParsing="false" onAction="#search" prefHeight="32.0" prefWidth="46.0" text="Search">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button layoutX="244.0" layoutY="15.0" mnemonicParsing="false" onAction="#resetSearch" prefHeight="32.0" prefWidth="45.0" text="Reset">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
