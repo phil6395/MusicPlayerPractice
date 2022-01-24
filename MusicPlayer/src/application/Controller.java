@@ -409,6 +409,7 @@ public class Controller implements Initializable {
 	}
 	
 	public void viewPlaylist() {
+		addButton.setVisible(false);
 		artistRadioButton.setSelected(false);
 		titleRadioButton.setSelected(true);
 		
@@ -420,13 +421,14 @@ public class Controller implements Initializable {
 		returnFromPlaylistButton.setVisible(true);
 		clearPlaylistButton.setVisible(true);
 		if (tracksListView.getItems().isEmpty()) {
-			addedMessage.setText("Playlist Empty - Please Return");
+			addedMessage.setText("Playlist Empty - ");
 			clearPlaylistButton.setVisible(false);
 		}
 		
 	}
 	
 	public void returnFromPlaylist() {
+		addButton.setVisible(true);
 		tracksListView.getItems().clear();
 		initialize(null, null);
 		addedMessage.setText(null);
@@ -440,7 +442,7 @@ public class Controller implements Initializable {
 		playlist.clear();
 		tracksListView.getItems().clear();
 		clearPlaylistButton.setVisible(false);
-		addedMessage.setText("Playlist Empty - Please Return");
+		addedMessage.setText("Playlist Empty - ");
 		
 	}
 

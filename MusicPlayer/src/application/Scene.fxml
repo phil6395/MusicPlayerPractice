@@ -52,8 +52,8 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Label fx:id="addedMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="315.0" prefHeight="18.0" prefWidth="182.0" text="     " textAlignment="CENTER" />
-      <Button fx:id="clearPlaylistButton" layoutX="206.0" layoutY="251.0" mnemonicParsing="false" onAction="#clearPlaylist" text="Clear" visible="false" />
-      <Button fx:id="returnFromPlaylistButton" layoutX="114.0" layoutY="280.0" mnemonicParsing="false" onAction="#returnFromPlaylist" text="Return" />
+      <Label fx:id="addedMessage" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="46.0" layoutY="309.0" prefHeight="18.0" prefWidth="158.0" text="     " textAlignment="CENTER" />
+      <Button fx:id="returnFromPlaylistButton" layoutX="206.0" layoutY="306.0" mnemonicParsing="false" onAction="#returnFromPlaylist" text="Return" />
+      <Button fx:id="clearPlaylistButton" layoutX="206.0" layoutY="247.0" mnemonicParsing="false" onAction="#clearPlaylist" text="Clear" visible="false" />
    </children>
 </AnchorPane>
