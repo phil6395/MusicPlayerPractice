@@ -185,9 +185,11 @@ public class Controller implements Initializable {
 
 			media = new Media(songs.get(songNumber).toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
+			
+			songNumber = tracksListView.getSelectionModel().getSelectedIndex()+1;
 			tracksListView.getSelectionModel().select(songNumber);
 
-			//songLabel.setText(songs.get(songNumber).getName().replace(".mp3", ""));
+			//System.out.println(tracksListView.getSelectionModel().getSelectedIndex()+1);
 
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
@@ -291,6 +293,9 @@ public class Controller implements Initializable {
 	
 	// SEARCH BOX PROCESSING
 	public void search(ActionEvent event) {
+		artistRadioButton.setSelected(false);
+		titleRadioButton.setSelected(true);
+		
 		tracksListView.getItems().clear();
 		initialize(null, null);
 
@@ -404,6 +409,8 @@ public class Controller implements Initializable {
 	}
 	
 	public void viewPlaylist() {
+		artistRadioButton.setSelected(false);
+		titleRadioButton.setSelected(true);
 		
 		tracksListView.getItems().clear();
 		for (String z : playlist) {
@@ -424,12 +431,15 @@ public class Controller implements Initializable {
 		initialize(null, null);
 		addedMessage.setText(null);
 		clearPlaylistButton.setVisible(false);
-		titleRadioButton.isSelected();
+		//radioButtons.clearSelection();
+		artistRadioButton.setSelected(false);
+		titleRadioButton.setSelected(true);
 	}
 	
 	public void clearPlaylist() {
-		playlist = null;
+		playlist.clear();
 		tracksListView.getItems().clear();
+		clearPlaylistButton.setVisible(false);
 		addedMessage.setText("Playlist Empty - Please Return");
 		
 	}
