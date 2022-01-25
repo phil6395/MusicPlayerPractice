@@ -103,6 +103,8 @@ public class Controller implements Initializable {
 
 		media = new Media(songs.get(songNumber).toURI().toString());
 		mediaPlayer = new MediaPlayer(media);
+		tracksListView.getSelectionModel().select(songNumber);
+		mediaPlayer.stop();
 		
 		
 		//REMOVE .MP3 SUFFIX FOR MORE PROFESSIONAL FORMATTING
@@ -129,9 +131,7 @@ public class Controller implements Initializable {
 							String part1 = parts[0];
 							String part2 = parts[1];
 							clickedSong = part2 + " - " + part1;
-						} else if (clickedSong == null) {
-							System.out.println("TESTING");
-						}
+						} 
 
 						songLabel.setText(clickedSong);
 
@@ -142,7 +142,7 @@ public class Controller implements Initializable {
 						if (clickedSong != null) {
 							mediaPlayer.stop();
 							selectedTrack = new Media(selectedTrackPath);
-							
+							mediaPlayer = new MediaPlayer(selectedTrack);
 							playMedia();
 						}
 					}
@@ -152,19 +152,9 @@ public class Controller implements Initializable {
 	}
 
 	public void playMedia() {
-		if (clickedSong != null) {
-			mediaPlayer.stop();
-				
-			mediaPlayer = new MediaPlayer(selectedTrack);
-			
-			mediaPlayer.play();	
-			
-			beginTimer();
-			
-		} else {
 			mediaPlayer.play();
 			beginTimer();
-		}
+		
 	}
 
 	public void pauseMedia() {
@@ -188,9 +178,8 @@ public class Controller implements Initializable {
 			
 			songNumber = tracksListView.getSelectionModel().getSelectedIndex()+1;
 			tracksListView.getSelectionModel().select(songNumber);
-
-			//System.out.println(tracksListView.getSelectionModel().getSelectedIndex()+1);
-
+			
+			System.out.println(songNumber);
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
 
@@ -293,6 +282,7 @@ public class Controller implements Initializable {
 	
 	// SEARCH BOX PROCESSING
 	public void search(ActionEvent event) {
+		viewPlaylistButton.setVisible(true);
 		artistRadioButton.setSelected(false);
 		titleRadioButton.setSelected(true);
 		
@@ -330,6 +320,7 @@ public class Controller implements Initializable {
 	}
 
 	public void resetSearch() {
+		viewPlaylistButton.setVisible(true);
 		tracksListView.getItems().clear();
 		initialize(null, null);
 		addedMessage.setText(null);
@@ -410,6 +401,7 @@ public class Controller implements Initializable {
 	
 	public void viewPlaylist() {
 		addButton.setVisible(false);
+		viewPlaylistButton.setVisible(false);
 		artistRadioButton.setSelected(false);
 		titleRadioButton.setSelected(true);
 		
@@ -428,6 +420,7 @@ public class Controller implements Initializable {
 	}
 	
 	public void returnFromPlaylist() {
+		viewPlaylistButton.setVisible(true);
 		addButton.setVisible(true);
 		tracksListView.getItems().clear();
 		initialize(null, null);
@@ -439,6 +432,7 @@ public class Controller implements Initializable {
 	}
 	
 	public void clearPlaylist() {
+		mediaPlayer.stop();
 		playlist.clear();
 		tracksListView.getItems().clear();
 		clearPlaylistButton.setVisible(false);
