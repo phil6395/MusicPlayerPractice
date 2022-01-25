@@ -1,1 +1,78 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root {
+	-fx-background-color: #d1fdff;
+	-fx-font-family: "Yu Gothic";
+}
+
+
+.button, .toggle-button {
+	-fx-background-color: #dfeff0;
+	-fx-border-style: none;	
+}
+
+
+.button:hover, .toggle-button:hover {
+    -fx-background-color: #aebcbd;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.button:pressed {
+    -fx-scale-y: 1;
+    -fx-scale-x: 1;
+    
+}
+
+.toggle-button:selected {
+	-fx-background-color: #4b7199;
+    -fx-text-fill: white;
+}
+
+#songLabel {
+	-fx-font-size: 105%;
+	-fx-scale-y: 1.1;
+	-fx-font-weight: bold;
+}
+
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #4b7199;
+    -fx-text-fill: white;
+}
+
+.list-cell:even {
+    -fx-background-color: #dcecfa
+}
+
+.list-cell:odd {
+    -fx-background-color: #f0f4f7
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #0093ff;
+    -fx-text-fill: white;
+}
+
+#searchBox {
+	-fx-background-color: #ebf0f5;
+	-fx-border-style: none;	
+}
+
+.radio-button .radio {
+    -fx-border-width: 1px;
+    -fx-border-color: #000;
+    -fx-background-color: white;
+    -fx-background-image: null;
+    -fx-border-radius: 6px;
+    -fx-padding: 3px;
+}
+.radio-button .radio:selected {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+
+
+.radio-button .dot {
+    -fx-background-radius: 5px;
+    -fx-padding: 3px;
+}

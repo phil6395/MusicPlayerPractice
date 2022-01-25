@@ -33,7 +33,7 @@
             <ToggleGroup fx:id="radioButtons" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="artistRadioButton" layoutX="112.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Artist" toggleGroup="$radioButtons" />
+      <RadioButton fx:id="artistRadioButton" layoutX="117.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Artist" toggleGroup="$radioButtons" />
       <Button fx:id="viewPlaylistButton" layoutX="178.0" layoutY="64.0" mnemonicParsing="false" onAction="#viewPlaylist" text="View Playlist" />
       <Button fx:id="playButton" layoutX="90.0" layoutY="373.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="38.0" prefWidth="46.0" text="▶">
          <font>

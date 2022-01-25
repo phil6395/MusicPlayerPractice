@@ -172,11 +172,20 @@ public class Controller implements Initializable {
 			mediaPlayer = new MediaPlayer(media);
 			
 			if (shuffleToggle.isSelected()) {
-				int max = tracksListView.getItems().size();
+				
+				int max = tracksListView.getItems().size()-1;
 				System.out.println("songs size: " + max);
 				int min = 0;
 				double randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 				System.out.println("randomNumber: " + randomNumber);
+				System.out.println("songNumber: " + songNumber);
+				if ((int)randomNumber == songNumber && (int)randomNumber <= max-1) {
+					randomNumber++;
+					System.out.println("Equal to songNumber, random number incremented to be: " + randomNumber);
+				} else if ((int)randomNumber == songNumber && (int)randomNumber == max){
+					randomNumber--;
+					System.out.println("Equal to songNumber, random number decremented to be: " + randomNumber);
+				}
 				songNumber = (int)randomNumber;
 				
 			}else {
