@@ -172,13 +172,12 @@ public class Controller implements Initializable {
 			mediaPlayer = new MediaPlayer(media);
 			
 			if (shuffleToggle.isSelected()) {
-				int max = songs.size()/2;
-				System.out.println("songs size: " + songs.size());
-				int min = 1;
+				int max = tracksListView.getItems().size();
+				System.out.println("songs size: " + max);
+				int min = 0;
 				double randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-				
-				songNumber = songNumber + (int) randomNumber;
-				songNumber = tracksListView.getSelectionModel().getSelectedIndex()+(int)randomNumber;
+				System.out.println("randomNumber: " + randomNumber);
+				songNumber = (int)randomNumber;
 				
 			}else {
 			songNumber++;
@@ -457,7 +456,10 @@ public class Controller implements Initializable {
 	public void setDirectory() {
 		DirectoryChooser chooser = new DirectoryChooser();
 		File selectedDirectory = chooser.showDialog(null);
+		if (selectedDirectory == null) {
+		} else {
 		directory = selectedDirectory;
+		}
 		mediaPlayer.stop();
 		playlist.clear();
 		returnFromPlaylist();
