@@ -27,13 +27,13 @@
       <Button fx:id="addButton" layoutX="232.0" layoutY="306.0" mnemonicParsing="false" onAction="#addtoPlaylist" text="➕" />
       <ToggleButton fx:id="shuffleToggle" layoutX="12.0" layoutY="306.0" mnemonicParsing="false" text="🔀" />
       <ListView fx:id="tracksListView" layoutX="11.0" layoutY="103.0" prefHeight="174.0" prefWidth="250.0" />
-      <Text layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
+      <Text layoutX="9.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
       <RadioButton fx:id="titleRadioButton" layoutX="64.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" selected="true" text="Title">
          <toggleGroup>
             <ToggleGroup fx:id="radioButtons" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="artistRadioButton" layoutX="117.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Artist" toggleGroup="$radioButtons" />
+      <RadioButton fx:id="artistRadioButton" layoutX="113.0" layoutY="68.0" mnemonicParsing="false" onAction="#sortListView" text="Artist" toggleGroup="$radioButtons" />
       <Button fx:id="viewPlaylistButton" layoutX="178.0" layoutY="64.0" mnemonicParsing="false" onAction="#viewPlaylist" text="View Playlist" />
       <Button fx:id="playButton" layoutX="90.0" layoutY="373.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="38.0" prefWidth="46.0" text="▶">
          <font>
@@ -60,7 +60,7 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Text layoutX="185.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose folder:">
+      <Text layoutX="160.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose music folder:">
          <font>
             <Font size="9.0" />
          </font>

@@ -205,7 +205,7 @@ public class Controller implements Initializable {
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
 
-			//playMedia();
+			beginTimer();
 			
 		} else {
 			songNumber = 0;
@@ -276,14 +276,14 @@ public class Controller implements Initializable {
 
 				end = media.getDuration().toSeconds();
 
-				//System.out.println(current / end);
+				System.out.println(current / end);
 				
 				Platform.runLater(() -> {
 					
 				//PROGRESS BAR COMMENTED OUT DUE TO ISSUES WITH DISPLAYING CORRECTLY
 				//songProgressBar.setProgress(current / end);
 
-				if (current / end == 1) {
+				if ((int) (current / end) == 1) {
 					cancelTimer();
 					nextMedia();
 				}
@@ -342,6 +342,7 @@ public class Controller implements Initializable {
 	}
 
 	public void resetSearch() {
+		addButton.setVisible(true);
 		viewPlaylistButton.setVisible(true);
 		tracksListView.getItems().clear();
 		initialize(null, null);
