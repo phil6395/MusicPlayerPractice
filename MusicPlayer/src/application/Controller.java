@@ -25,6 +25,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.DirectoryChooser;
 
 public class Controller implements Initializable {
 
@@ -35,7 +36,7 @@ public class Controller implements Initializable {
 	private Label songLabel, addedMessage;
 
 	@FXML
-	private Button nextButton, previousButton, viewPlaylistButton, addButton, clearPlaylistButton, returnFromPlaylistButton;
+	private Button nextButton, previousButton, viewPlaylistButton, addButton, clearPlaylistButton, returnFromPlaylistButton, setDirectoryButton;
 
 	@FXML
 	private ToggleButton playToggle, shuffleToggle;
@@ -46,7 +47,7 @@ public class Controller implements Initializable {
 	private Media media;
 	private MediaPlayer mediaPlayer;
 
-	private File directory;
+	//private File directory;
 	private File[] files;
 
 	private ArrayList<File> songs;
@@ -81,14 +82,12 @@ public class Controller implements Initializable {
 	@FXML
 	private RadioButton titleRadioButton, artistRadioButton;
 	
-
+	File directory = new File("music");
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
-		
 		songs = new ArrayList<File>();
-
-		directory = new File("music");
 
 		files = directory.listFiles();
 
@@ -103,7 +102,7 @@ public class Controller implements Initializable {
 
 		media = new Media(songs.get(songNumber).toURI().toString());
 		mediaPlayer = new MediaPlayer(media);
-		tracksListView.getSelectionModel().select(songNumber);
+		tracksListView.getSelectionModel().select(0);
 		mediaPlayer.stop();
 		
 		
@@ -166,17 +165,32 @@ public class Controller implements Initializable {
 		clickedSong = null;
 		
 		if (songNumber < songs.size() - 1) {
-			songNumber++;
+			
 			mediaPlayer.stop();
-
-			if (running) {
-				cancelTimer();
-			}
 
 			media = new Media(songs.get(songNumber).toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			
+			if (shuffleToggle.isSelected()) {
+				int max = songs.size()/2;
+				System.out.println("songs size: " + songs.size());
+				int min = 1;
+				double randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+				
+				songNumber = songNumber + (int) randomNumber;
+				songNumber = tracksListView.getSelectionModel().getSelectedIndex()+(int)randomNumber;
+				
+			}else {
+			songNumber++;
 			songNumber = tracksListView.getSelectionModel().getSelectedIndex()+1;
+			}
+			
+			if (running) {
+				cancelTimer();
+			}
+			
+			
+			
 			tracksListView.getSelectionModel().select(songNumber);
 			
 			System.out.println(songNumber);
@@ -437,7 +451,16 @@ public class Controller implements Initializable {
 		tracksListView.getItems().clear();
 		clearPlaylistButton.setVisible(false);
 		addedMessage.setText("Playlist Empty - ");
-		
+	}
+	
+	
+	public void setDirectory() {
+		DirectoryChooser chooser = new DirectoryChooser();
+		File selectedDirectory = chooser.showDialog(null);
+		directory = selectedDirectory;
+		mediaPlayer.stop();
+		playlist.clear();
+		returnFromPlaylist();
 	}
 
 }
