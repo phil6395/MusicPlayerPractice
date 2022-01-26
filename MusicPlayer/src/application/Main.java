@@ -13,12 +13,14 @@ import javafx.scene.image.Image;
 
 public class Main extends Application {
 	
+	private Scene scene;
+	
 	@Override
 	public void start(Stage stage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Scene.fxml"));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 			
 			stage.setTitle("Music Player");
 			stage.getIcons().add(
@@ -52,5 +54,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 	
 }
