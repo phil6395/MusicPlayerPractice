@@ -1,7 +1,6 @@
 package application;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,10 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -29,6 +25,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 public class Controller implements Initializable {
@@ -41,7 +39,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	private Button nextButton, previousButton, viewPlaylistButton, addButton, clearPlaylistButton,
-			returnFromPlaylistButton, setDirectoryButton;
+			returnFromPlaylistButton, setDirectoryButton, unlockButton;
 
 	@FXML
 	private ToggleButton playToggle, shuffleToggle;
@@ -71,6 +69,12 @@ public class Controller implements Initializable {
 	public MediaPlayer selectionMediaPlayer;
 
 	private String nameWithoutExtension;
+	
+	@FXML
+	private Text idleTitle;
+	
+	@FXML
+	private Rectangle idleRectangle;
 
 	@FXML
 	private TextField searchBox;
@@ -82,6 +86,7 @@ public class Controller implements Initializable {
 	private ListView<String> tracksListView;
 
 	private String clickedSong;
+	
 
 	@FXML
 	private RadioButton titleRadioButton, artistRadioButton;
@@ -143,6 +148,11 @@ public class Controller implements Initializable {
 							mediaPlayer.stop();
 							media = new Media(selectedTrackPath);
 							mediaPlayer = new MediaPlayer(media);
+							
+							if (timer != null) {
+								cancelTimer();
+								cancelIdleTimer();
+							}
 							playMedia();
 
 						}
@@ -160,6 +170,7 @@ public class Controller implements Initializable {
 
 	public void pauseMedia() {
 		cancelTimer();
+		cancelIdleTimer();
 		mediaPlayer.pause();
 	}
 
@@ -206,8 +217,6 @@ public class Controller implements Initializable {
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
 
-			beginTimer();
-			beginIdleTimer();
 
 		} else {
 			songNumber = 0;
@@ -216,11 +225,9 @@ public class Controller implements Initializable {
 			tracksListView.getSelectionModel().select(songNumber);
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
-			
-			beginTimer();
-			beginIdleTimer();
-			
 		}
+		beginTimer();
+		beginIdleTimer();
 	}
 
 	public void previousMedia() {
@@ -249,6 +256,9 @@ public class Controller implements Initializable {
 
 			songLabel.setText(tracksListView.getSelectionModel().getSelectedItem().replace(".mp3", ""));
 		}
+		
+		beginTimer();
+		beginIdleTimer();
 
 	}
 
@@ -291,6 +301,9 @@ public class Controller implements Initializable {
 
 	// SEARCH BOX PROCESSING
 	public void search(ActionEvent event) {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		viewPlaylistButton.setVisible(true);
 		artistRadioButton.setSelected(false);
 		titleRadioButton.setSelected(true);
@@ -327,6 +340,9 @@ public class Controller implements Initializable {
 	}
 
 	public void resetSearch() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		addButton.setVisible(true);
 		viewPlaylistButton.setVisible(true);
 		tracksListView.getItems().clear();
@@ -337,6 +353,9 @@ public class Controller implements Initializable {
 
 	// SORT LISTVIEW INTO TITLE OR ARTIST SORTED
 	public void sortListView(ActionEvent event) {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		if (titleRadioButton.isSelected()) {
 
 			ArrayList<String> titleSortedList = new ArrayList<>();
@@ -381,6 +400,9 @@ public class Controller implements Initializable {
 	ArrayList<String> playlist = new ArrayList<>();
 
 	public void addtoPlaylist(ActionEvent event) {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 
 		String addedSong = songLabel.getText();
 
@@ -402,10 +424,14 @@ public class Controller implements Initializable {
 			}
 		};
 		addedTimer.schedule(addedTask, 1200);
+		beginIdleTimer();
 
 	}
 
 	public void viewPlaylist() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		addButton.setVisible(false);
 		viewPlaylistButton.setVisible(false);
 		artistRadioButton.setSelected(false);
@@ -426,6 +452,9 @@ public class Controller implements Initializable {
 	}
 
 	public void returnFromPlaylist() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		viewPlaylistButton.setVisible(true);
 		addButton.setVisible(true);
 		tracksListView.getItems().clear();
@@ -437,6 +466,9 @@ public class Controller implements Initializable {
 	}
 
 	public void clearPlaylist() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		mediaPlayer.stop();
 		playlist.clear();
 		tracksListView.getItems().clear();
@@ -445,6 +477,9 @@ public class Controller implements Initializable {
 	}
 
 	public void setDirectory() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
 		DirectoryChooser chooser = new DirectoryChooser();
 		File selectedDirectory = chooser.showDialog(null);
 		if (selectedDirectory == null) {
@@ -463,16 +498,14 @@ public class Controller implements Initializable {
 		idleTask = new TimerTask() {
 			@Override
 			public void run() {
+				System.out.println("COMPLETE");
+				System.out.println("idleTask: " + idleTask);
 				Platform.runLater(() -> {
-					try {
-						switchToIdleScene();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					showIdleScreen();
 				});
 			}
 		};
-		idleTimer.schedule(idleTask, 3000);
+		idleTimer.schedule(idleTask, 30000);
 
 	}
 
@@ -480,11 +513,24 @@ public class Controller implements Initializable {
 		idleTimer.cancel();
 	}
 
-	public void switchToIdleScene() throws IOException {
-//		Parent root = FXMLLoader.load(getClass().getResource("IdleScene.fxml"));
-//		Scene scene = titleRadioButton.getScene();
-//		System.out.println(scene);
-//		scene.setRoot(root);
+	
+	public void showIdleScreen() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
+		unlockButton.setVisible(true);
+		idleRectangle.setVisible(true);
+		idleTitle.setVisible(true);
+	}
+	
+	public void unlock() {
+		if (idleTimer != null) {
+			cancelIdleTimer();
+		}
+		unlockButton.setVisible(false);
+		idleRectangle.setVisible(false);
+		idleTitle.setVisible(false);
+		beginIdleTimer();
 	}
 
 }
